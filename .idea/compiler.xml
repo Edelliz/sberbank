@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -10,6 +11,7 @@
         <module name="config-service" />
         <module name="discovery-service" />
         <module name="core-service" />
+        <module name="db-manager-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -18,6 +20,7 @@
       <module name="api-gateway" options="-parameters" />
       <module name="config-service" options="-parameters" />
       <module name="core-service" options="-parameters" />
+      <module name="db-manager-service" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
     </option>
   </component>

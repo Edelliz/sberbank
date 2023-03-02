@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: "core"
+  datasource:
+      url: jdbc:postgresql://localhost:5432/sberbank
+      username: admin
+      password: admin
+      driver-class-name: org.postgresql.Driver
+
 
 eureka:
   client:
