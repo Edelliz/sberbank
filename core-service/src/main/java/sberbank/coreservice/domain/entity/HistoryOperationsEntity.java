@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class HistoryOperationsEntity extends BaseEntity {
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "value")
+    private String value;
 
     @Column(name = "type")
     private TypeOfOperation type;

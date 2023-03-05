@@ -1,0 +1,20 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="03_03_2023__create_table_history_operations" author="iplotnikova">
+        <createTable tableName="history_operations">
+            <column name="id" type="BIGINT" remarks="Идентификатор"></column>
+            <column name="value" type="VARCHAR(500)" remarks="Значение"></column>
+            <column name="type" type="VARCHAR(50)" remarks="Тип операции"></column>
+            <column name="execute_date" type="TIMESTAMP" remarks="Дата операции"></column>
+            <column name="account_id" type="BIGINT" remarks="Идентификатор счета"></column>
+        </createTable>
+
+        <addPrimaryKey tableName="history_operations" columnNames="id"/>
+        <rollback>
+            <dropView viewName="history_operations"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,26 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="02_03_2023__create_table_loan_rate" author="iplotnikova">
+        <createTable tableName="loan_rate">
+            <column name="id" type="BIGINT" remarks="Идентификатор"></column>
+            <column name="name_rate" type="VARCHAR(50)" remarks="Наименование тарифа"></column>
+            <column name="rate" type="NUMBER" remarks="Процентная ставка"></column>
+            <column name="min_payment" type="NUMBER" remarks="Размер минимального платежа"></column>
+            <column name="employee_id" type="BIGINT" remarks="Идентификатор создателя тарифа"></column>
+            <column name="create_date" type="DATE" remarks="Дата создания"></column>
+        </createTable>
+
+        <addPrimaryKey tableName="loan_rate" columnNames="id"/>
+        <addNotNullConstraint tableName="loan_rate" columnName="name_rate"/>
+        <addNotNullConstraint tableName="loan_rate" columnName="employee_id"/>
+        <addNotNullConstraint tableName="loan_rate" columnName="min_payment"/>
+        <addNotNullConstraint tableName="loan_rate" columnName="rate"/>
+
+        <rollback>
+            <dropTable tableName="loan_rate"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="02_03_2023__create_table_loan" author="iplotnikova">
+        <createTable tableName="loan">
+            <column name="id" type="BIGINT" remarks="Идентификатор"></column>
+            <column name="rate_id" type="BIGINT" remarks="Идентификатор тарифа"></column>
+            <column name="amount" type="BIGINT" remarks="Сумма кредита"></column>
+            <column name="payment" type="BIGINT" remarks="Ежемесячный платеж"></column>
+            <column name="start_date" type="DATE" remarks="Дата взятия кредита"></column>
+            <column name="end_date" type="DATE" remarks="Дата последнего платежа кредита"></column>
+            <column name="client_id" type="BIGINT" remarks="Идентификатор клиента взявшего кредит"></column>
+            <column name="employee_id" type="BIGINT" remarks="Идентификатор сотрудника, выдавшего кредит"></column>
+        </createTable>
+
+        <addPrimaryKey tableName="loan" columnNames="id"/>
+        <addNotNullConstraint tableName="loan" columnName="amount"/>
+        <addNotNullConstraint tableName="loan" columnName="payment"/>
+        <addNotNullConstraint tableName="loan" columnName="start_date"/>
+        <addNotNullConstraint tableName="loan" columnName="end_date"/>
+
+        <rollback>
+            <dropTable tableName="loan"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

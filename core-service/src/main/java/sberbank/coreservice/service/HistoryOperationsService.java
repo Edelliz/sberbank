@@ -3,12 +3,15 @@ package sberbank.coreservice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sberbank.coreservice.domain.dto.AccountOperationDto;
 import sberbank.coreservice.domain.entity.HistoryOperationsEntity;
 import sberbank.coreservice.domain.entity.TypeOfOperation;
 import sberbank.coreservice.repository.HistoryOperationsRepository;
+import sberbank.coreservice.utils.converter.Converter;
+import sberbank.coreservice.utils.converter.LocalDateTimeConverter;
+import sberbank.coreservicecommon.dto.AccountOperationDto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,12 +20,13 @@ import java.util.stream.Collectors;
 public class HistoryOperationsService {
 
     private final HistoryOperationsRepository historyOperationsRepository;
+    private final Converter localDateTimeConverter;
 
     @Transactional
     public void recordOperation(Long accountId, TypeOfOperation type, String parameters) {
         HistoryOperationsEntity entity = new HistoryOperationsEntity();
         entity.setExecuteDate(LocalDateTime.now());
-        entity.setText(String.format(type.getDescription(), parameters));
+        entity.setValue(parameters);
         entity.setType(type);
         entity.setAccountId(accountId);
 
@@ -36,7 +40,9 @@ public class HistoryOperationsService {
 
     private List<AccountOperationDto> toDto(List<HistoryOperationsEntity> entities) {
         return entities.stream().map(e -> {
-            return new AccountOperationDto(e.getText(), e.getExecuteDate());
+            return new AccountOperationDto(
+                    e.getType().toString(), e.getValue(), localDateTimeConverter.convert(e.getExecuteDate())
+            );
         }).collect(Collectors.toList());
     }
 }

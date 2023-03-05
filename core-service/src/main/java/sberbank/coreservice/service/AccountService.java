@@ -4,13 +4,17 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import sberbank.coreservice.domain.entity.AccountEntity;
 import sberbank.coreservice.domain.entity.TypeOfOperation;
 import sberbank.coreservice.exception.InsufficientFundsException;
 import sberbank.coreservice.exception.NotFoundAccount;
 import sberbank.coreservice.repository.AccountRepository;
+import sberbank.coreservicecommon.dto.AccountDto;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +23,20 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final HistoryOperationsService historyService;
+
     private Random rnd = new Random();
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    private final String URI_TO_USER = "http://localhost:8765/user";
+
+    /**
+     * Получение всех счетов
+     */
+    @Transactional(readOnly = true)
+    public List<AccountDto> getAccounts() {
+
+        return accountRepository.findAll().stream().map(this::accountEntityToDto).collect(Collectors.toList());
+    }
 
     /**
      * Открытие счета
@@ -33,8 +50,6 @@ public class AccountService {
 
         accountRepository.save(entity);
 
-        historyService.recordOperation(entity.getId(), TypeOfOperation.OPENING_AN_ACCOUNT, entity.getNumber());
-
         return entity.getNumber();
     }
 
@@ -43,9 +58,7 @@ public class AccountService {
      */
     @Transactional
     public void deleteAccount(Long accountId) {
-        historyService.recordOperation(
-                accountId, TypeOfOperation.CLOSING_AN_ACCOUNT, accountRepository.getNumber(accountId)
-        );
+
         accountRepository.deleteById(accountId);
     }
 
@@ -101,6 +114,16 @@ public class AccountService {
         }
 
         return entity.getAmount();
+    }
+
+    private AccountDto accountEntityToDto(AccountEntity entity) {
+
+        return new AccountDto(entity.getNumber(), getUserFullName(entity.getOwnerId()), entity.getAmount());
+    }
+
+    private String getUserFullName(Long userId) {
+
+        return restTemplate.getForObject(URI_TO_USER + "/" + userId, String.class);
     }
 
 }

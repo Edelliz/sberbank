@@ -1,0 +1,23 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="02_03_2023__create_table_account" author="iplotnikova">
+        <createTable tableName="account">
+            <column name="id" type="BIGINT" remarks="Идентификатор"></column>
+            <column name="number" type="VARCHAR(50)" remarks="Номер"></column>
+            <column name="owner_id" type="BIGINT" remarks="Идентификатор владельца счета"></column>
+            <column name="amount" type="BIGINT" defaultValueNumeric="0" remarks="Баланс"></column>
+        </createTable>
+
+        <addPrimaryKey tableName="account" columnNames="id"/>
+        <addNotNullConstraint tableName="account" columnName="number"/>
+        <addNotNullConstraint tableName="account" columnName="owner_id"/>
+        <addNotNullConstraint tableName="account" columnName="amount"/>
+
+        <rollback>
+            <dropTable tableName="account"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

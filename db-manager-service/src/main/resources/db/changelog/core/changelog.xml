@@ -1,0 +1,10 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="02_03_2023__create_table_account.xml" relativeToChangelogFile="true"/>
+    <include file="03_03_2023__create_view_history_operation.xml" relativeToChangelogFile="true"/>
+    <include file="03_03_2023__create_app_sequence.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

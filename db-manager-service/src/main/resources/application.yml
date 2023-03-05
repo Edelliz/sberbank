@@ -5,7 +5,7 @@ spring:
   application:
     name: "db-manager"
   datasource:
-    url: jdbc:postgresql://localhost:5432/sberbank
+    url: jdbc:postgresql://localhost:5432/core-db
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
@@ -13,8 +13,7 @@ spring:
     hibernate:
       ddl-auto: none
   liquibase:
-    change-log: "classpath:db/changelog/changelog-master.xml"
-
+    change-log: "classpath:db/changelog/changelog.xml"
 
 eureka:
   client:

@@ -1,0 +1,15 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+                   logicalFilePath="liquibase/loan/v1/2021_11_11_1131_create_app_seq_sequence.xml">
+
+    <changeSet id="03_03_2023__create_app_sequence" author="iplotnikova">
+        <createSequence sequenceName="app_seq"
+                        incrementBy="50"
+                        startValue="1000"/>
+
+        <rollback>
+            <dropSequence sequenceName="app_seq"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

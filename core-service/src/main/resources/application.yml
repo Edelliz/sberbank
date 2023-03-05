@@ -5,7 +5,7 @@ spring:
   application:
     name: "core"
   datasource:
-      url: jdbc:postgresql://localhost:5432/sberbank
+      url: jdbc:postgresql://localhost:5432/core-db
       username: admin
       password: admin
       driver-class-name: org.postgresql.Driver
