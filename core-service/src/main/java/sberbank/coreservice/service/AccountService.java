@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import sberbank.coreservice.domain.entity.AccountEntity;
 import sberbank.coreservice.domain.entity.TypeOfOperation;
+import sberbank.coreservice.domain.entity.dto.AccountAmountUpdateDto;
 import sberbank.coreservice.domain.entity.dto.AccountDto;
 import sberbank.coreservice.exception.InsufficientFundsException;
 import sberbank.coreservice.exception.NotFoundAccount;
@@ -76,19 +77,19 @@ public class AccountService {
      * Пополнение счета
      */
     @Transactional
-    public AccountDto replenishAccount(Long accountId, Long amount) {
+    public AccountDto replenishAccount(AccountAmountUpdateDto dto) {
 
-        return updateAccountAmount(accountId, amount);
+        return updateAccountAmount(dto.getAccountId(), dto.getAmount());
     }
 
     /**
      * Снятие счета
      */
     @Transactional
-    public AccountDto withdrawAccount(Long accountId, Long amount) {
-        if (accountRepository.getAmount(accountId) - amount >= 0) {
+    public AccountDto withdrawAccount(AccountAmountUpdateDto dto) {
+        if (accountRepository.getAmount(dto.getAccountId()) -dto.getAmount() >= 0) {
 
-            return updateAccountAmount(accountId, -amount);
+            return updateAccountAmount(dto.getAccountId(), -dto.getAmount());
         }
 
         throw new InsufficientFundsException("Недостаточно средств для снятия");
@@ -105,13 +106,13 @@ public class AccountService {
         return number.toString();
     }
 
-    private AccountDto updateAccountAmount(Long accountId, Long amount) {
+    private AccountDto updateAccountAmount(Long accountId, Double amount) {
         AccountEntity entity = accountRepository.findById(accountId)
                 .orElseThrow(() -> {
                     throw new NotFoundAccount("Счет с таким id: " + accountId + " не найден");
                 });
 
-        entity.setAmount(entity.getAmount() + amount);
+        entity.setAmount((long) (entity.getAmount() + amount));
 
         if (amount >= 0) {
             historyService.recordOperation(
@@ -119,7 +120,7 @@ public class AccountService {
             );
         } else {
             historyService.recordOperation(
-                    accountId, TypeOfOperation.WITHDRAWAL_OF_FUNDS_FROM_ACCOUNT, Long.toString(-amount)
+                    accountId, TypeOfOperation.WITHDRAWAL_OF_FUNDS_FROM_ACCOUNT, Double.toString(-amount)
             );
         }
 
@@ -128,7 +129,9 @@ public class AccountService {
 
     private AccountDto accountEntityToDto(AccountEntity entity) {
 
-        return new AccountDto(entity.getNumber(), getUserFullName(entity.getOwnerId()), entity.getAmount());
+        return new AccountDto(
+                entity.getId(), entity.getNumber(), getUserFullName(entity.getOwnerId()), entity.getAmount()
+        );
     }
 
     private String getUserFullName(Long userId) {

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import sberbank.userservice.domain.dto.UserDto;
 import sberbank.userservice.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping()
 @RequiredArgsConstructor
@@ -26,13 +28,23 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    /*Доработать при добавлении аутентификации*/
+    @GetMapping("/clients")
+    public List<UserDto> getAllClients() {
+        return userService.getAllClients();
+    }
+
+    @GetMapping("/employees")
+    public List<UserDto> getAllEmployees() {
+        return userService.getAllEmployees();
+    }
+
+    /*todo Доработать при добавлении аутентификации*/
     @PostMapping("/{employeeId}/{userId}/block")
     public void blockUser(@PathVariable Long employeeId, @PathVariable Long userId) {
         userService.blockUser(employeeId, userId);
     }
 
-    /*Доработать при добавлении аутентификации*/
+    /*todo Доработать при добавлении аутентификации*/
     @PostMapping("/{employeeId}/{userId}/unblock")
     public void unblockUser(@PathVariable Long employeeId, @PathVariable Long userId) {
         userService.unblockUser(employeeId, userId);

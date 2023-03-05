@@ -1,5 +1,6 @@
 package com.example.clientservice.service;
 
+import com.example.clientservice.dto.AccountAmountUpdateDto;
 import com.example.clientservice.dto.AccountDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -51,10 +52,10 @@ public class AccountService {
     /**
      * Пополнение счета
      */
-    public AccountDto replenishAccount(Long accountId, Long amount) {
+    public AccountDto replenishAccount(AccountAmountUpdateDto dto) {
         return restTemplate.postForEntity(
-                URI + "refill/" + accountId + "/" + amount,
-                null,
+                URI + "refill",
+                dto,
                 AccountDto.class
         ).getBody();
     }
@@ -62,10 +63,10 @@ public class AccountService {
     /**
      * Снятие счета
      */
-    public AccountDto withdrawAccount(Long accountId, Long amount) {
+    public AccountDto withdrawAccount(AccountAmountUpdateDto dto) {
         return restTemplate.postForEntity(
-                URI + "withdrawal/" + accountId + "/" + amount,
-                null,
+                URI + "withdrawal",
+                dto,
                 AccountDto.class
         ).getBody();
     }

@@ -1,5 +1,6 @@
 package com.example.clientservice.controller;
 
+import com.example.clientservice.dto.AccountAmountUpdateDto;
 import com.example.clientservice.dto.AccountDto;
 import com.example.clientservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,22 +49,20 @@ public class AccountController {
     /**
      * Пополнение счета
      */
-    @PostMapping("refill/{accountId}/{amount}")
+    @PostMapping("refill")
     public AccountDto replenishAccount(
-            @PathVariable Long accountId,
-            @PathVariable Long amount
+            @RequestBody AccountAmountUpdateDto dto
     ) {
-        return accountService.replenishAccount(accountId, amount);
+        return accountService.replenishAccount(dto);
     }
 
     /**
      * Снятие со счета
      */
-    @PostMapping("withdrawal/{accountId}/{amount}")
+    @PostMapping("withdrawal")
     public AccountDto withdrawAccount(
-            @PathVariable Long accountId,
-            @PathVariable Long amount
+            @RequestBody AccountAmountUpdateDto dto
     ) {
-        return accountService.withdrawAccount(accountId, amount);
+        return accountService.withdrawAccount(dto);
     }
 }

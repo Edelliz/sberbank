@@ -9,6 +9,9 @@ import sberbank.userservice.domain.enums.UserStatus;
 import sberbank.userservice.exception.NotFoundUser;
 import sberbank.userservice.repository.UserRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -44,12 +47,26 @@ public class UserService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public List<UserDto> getAllClients() {
+
+        return userRepository.getAllClients().stream().map(this::userEntityToDto).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDto> getAllEmployees() {
+
+        return userRepository.getAllEmployees().stream().map(this::userEntityToDto).collect(Collectors.toList());
+    }
+
     private UserDto userEntityToDto(UserEntity entity) {
 
         return new UserDto(
+                entity.getId(),
                 entity.getLogin(), entity.getName(),
                 entity.getRole().getDescription(), entity.getStatus().getDescription(),
                 entity.getSurname()
         );
     }
+
 }

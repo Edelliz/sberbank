@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountDto {
+    private Long id;
+
     private String number;
 
     private String ownerFullName;
