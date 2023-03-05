@@ -39,10 +39,20 @@ public class AccountService {
     }
 
     /**
+     * Получение счетов пользователя
+     */
+    @Transactional(readOnly = true)
+    public List<AccountDto> getAccount(Long userId) {
+
+        return accountRepository.findAccountEntitiesByOwnerId(userId).stream()
+                .map(this::accountEntityToDto).collect(Collectors.toList());
+    }
+
+    /**
      * Открытие счета
      */
     @Transactional
-    public String createAccount(Long clientId) {
+    public AccountDto createAccount(Long clientId) {
         AccountEntity entity = new AccountEntity();
         entity.setAmount(0L);
         entity.setNumber(generateAccountNumber());
@@ -50,7 +60,7 @@ public class AccountService {
 
         accountRepository.save(entity);
 
-        return entity.getNumber();
+        return accountEntityToDto(entity);
     }
 
     /**
@@ -66,7 +76,7 @@ public class AccountService {
      * Пополнение счета
      */
     @Transactional
-    public Long replenishAccount(Long accountId, Long amount) {
+    public AccountDto replenishAccount(Long accountId, Long amount) {
 
         return updateAccountAmount(accountId, amount);
     }
@@ -75,7 +85,7 @@ public class AccountService {
      * Снятие счета
      */
     @Transactional
-    public Long withdrawAccount(Long accountId, Long amount) {
+    public AccountDto withdrawAccount(Long accountId, Long amount) {
         if (accountRepository.getAmount(accountId) - amount >= 0) {
 
             return updateAccountAmount(accountId, -amount);
@@ -95,7 +105,7 @@ public class AccountService {
         return number.toString();
     }
 
-    private Long updateAccountAmount(Long accountId, Long amount) {
+    private AccountDto updateAccountAmount(Long accountId, Long amount) {
         AccountEntity entity = accountRepository.findById(accountId)
                 .orElseThrow(() -> {
                     throw new NotFoundAccount("Счет с таким id: " + accountId + " не найден");
@@ -113,7 +123,7 @@ public class AccountService {
             );
         }
 
-        return entity.getAmount();
+        return accountEntityToDto(entity);
     }
 
     private AccountDto accountEntityToDto(AccountEntity entity) {

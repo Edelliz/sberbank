@@ -15,6 +15,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    /*todo убрать*/
     @Transactional(readOnly = true)
     public String getFullNameUser(Long id) {
 

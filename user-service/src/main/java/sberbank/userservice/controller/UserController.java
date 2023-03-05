@@ -16,7 +16,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/fullname")
     public String getFullNameUser(@PathVariable Long userId) {
         return userService.getFullNameUser(userId);
     }

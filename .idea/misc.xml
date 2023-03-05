@@ -10,7 +10,6 @@
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/config-service/pom.xml" />
         <option value="$PROJECT_DIR$/db-manager-service/pom.xml" />
-        <option value="$PROJECT_DIR$/core-service-common/pom.xml" />
         <option value="$PROJECT_DIR$/user-service/pom.xml" />
         <option value="$PROJECT_DIR$/client-service/pom.xml" />
       </list>

@@ -29,10 +29,19 @@ public class AccountController {
     }
 
     /**
+     * Получение счетов клиента
+     * */
+    @GetMapping("/{clientId}")
+    public List<AccountDto> getAccount(@PathVariable Long clientId) {
+
+        return accountService.getAccount(clientId);
+    }
+
+    /**
      * Открытие счета
      */
     @PostMapping("/{clientId}")
-    public String createAccount(@PathVariable Long clientId) {
+    public AccountDto createAccount(@PathVariable Long clientId) {
 
         return accountService.createAccount(clientId);
     }
@@ -50,7 +59,7 @@ public class AccountController {
      * Пополнение счета
      */
     @PostMapping("refill/{accountId}/{amount}")
-    public Long replenishAccount(
+    public AccountDto replenishAccount(
             @PathVariable Long accountId,
             @PathVariable Long amount
     ) {
@@ -62,7 +71,7 @@ public class AccountController {
      * Снятие счета
      */
     @PostMapping("withdrawal/{accountId}/{amount}")
-    public Long withdrawAccount(
+    public AccountDto withdrawAccount(
             @PathVariable Long accountId,
             @PathVariable Long amount
     ) {

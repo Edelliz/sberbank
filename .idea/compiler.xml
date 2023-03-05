@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="config-service" />
         <module name="common-service" />
-        <module name="core-service-common" />
         <module name="api-gateway" />
         <module name="user-service" />
         <module name="discovery-service" />
@@ -21,6 +20,7 @@
     <bytecodeTargetLevel>
       <module name="common-service" target="11" />
       <module name="core-common-service" target="11" />
+      <module name="core-service-common" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

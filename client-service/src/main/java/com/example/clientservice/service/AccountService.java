@@ -1,23 +1,44 @@
 package com.example.clientservice.service;
 
+import com.example.clientservice.dto.AccountDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Data
 public class AccountService {
     private final RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final String URI = "http://localhost:8765/core/account/";
 
+    /**
+     * Получение счета пользователя
+     */
+    public List<AccountDto> getAccount(Long clientId) {
+        Object[] response = restTemplate.getForEntity(URI + clientId, Object[].class).getBody();
+        return Arrays.stream(Objects.requireNonNull(response))
+                .map(object -> objectMapper.convertValue(object, AccountDto.class))
+                .collect(Collectors.toList());
+    }
 
     /**
      * Открытие счета
      */
-    public String createAccount(Long clientId) {
-        return restTemplate.postForObject(URI + clientId, null, String.class);
+    public AccountDto createAccount(Long clientId) {
+        return restTemplate.postForEntity(
+                URI + clientId,
+                null,
+                AccountDto.class
+        ).getBody();
     }
 
     /**
@@ -30,15 +51,23 @@ public class AccountService {
     /**
      * Пополнение счета
      */
-    public Long replenishAccount(Long accountId, Long amount) {
-        return restTemplate.postForObject(URI + "refill/" + accountId + "/" + amount, null, Long.class);
+    public AccountDto replenishAccount(Long accountId, Long amount) {
+        return restTemplate.postForEntity(
+                URI + "refill/" + accountId + "/" + amount,
+                null,
+                AccountDto.class
+        ).getBody();
     }
 
     /**
      * Снятие счета
      */
-    public Long withdrawAccount(Long accountId, Long amount) {
-        return restTemplate.postForObject(URI + "withdrawal/" + accountId + "/" + amount, null, Long.class);
+    public AccountDto withdrawAccount(Long accountId, Long amount) {
+        return restTemplate.postForEntity(
+                URI + "withdrawal/" + accountId + "/" + amount,
+                null,
+                AccountDto.class
+        ).getBody();
     }
 
 }
