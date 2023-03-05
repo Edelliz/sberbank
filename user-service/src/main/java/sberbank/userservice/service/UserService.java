@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sberbank.userservice.domain.dto.UserDto;
 import sberbank.userservice.domain.entity.UserEntity;
+import sberbank.userservice.domain.enums.UserStatus;
 import sberbank.userservice.exception.NotFoundUser;
 import sberbank.userservice.repository.UserRepository;
 
@@ -20,9 +21,18 @@ public class UserService {
         return userRepository.getFullNameUserById(id);
     }
 
-    @Transactional(readOnly = true)
-    public String blockUser(Long employeeId, Long userId) {
-        return userRepository.getFullNameUserById(userId);
+    @Transactional
+    public void blockUser(Long employeeId, Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundUser("Пользователь с id: " + userId + " не найден"))
+                .setStatus(UserStatus.BLOCK);
+    }
+
+    @Transactional
+    public void unblockUser(Long employeeId, Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundUser("Пользователь с id: " + userId + " не найден"))
+                .setStatus(UserStatus.ACTIVE);
     }
 
     @Transactional(readOnly = true)

@@ -5,13 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sberbank.coreservice.domain.entity.HistoryOperationsEntity;
 import sberbank.coreservice.domain.entity.TypeOfOperation;
+import sberbank.coreservice.domain.entity.dto.AccountOperationDto;
 import sberbank.coreservice.repository.HistoryOperationsRepository;
 import sberbank.coreservice.utils.converter.Converter;
-import sberbank.coreservice.utils.converter.LocalDateTimeConverter;
-import sberbank.coreservicecommon.dto.AccountOperationDto;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,10 +1,10 @@
 package com.example.clientservice.service;
 
+import com.example.clientservice.dto.AccountOperationDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import sberbank.coreservicecommon.dto.AccountOperationDto;
 
 import java.util.Arrays;
 import java.util.List;

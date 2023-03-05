@@ -26,9 +26,16 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    @PostMapping("/{employeeId}/{userId}")
-    public String blockUser(@PathVariable Long employeeId, @PathVariable Long userId) {
-        return userService.blockUser(employeeId, userId);
+    /*Доработать при добавлении аутентификации*/
+    @PostMapping("/{employeeId}/{userId}/block")
+    public void blockUser(@PathVariable Long employeeId, @PathVariable Long userId) {
+        userService.blockUser(employeeId, userId);
+    }
+
+    /*Доработать при добавлении аутентификации*/
+    @PostMapping("/{employeeId}/{userId}/unblock")
+    public void unblockUser(@PathVariable Long employeeId, @PathVariable Long userId) {
+        userService.unblockUser(employeeId, userId);
     }
 
 }

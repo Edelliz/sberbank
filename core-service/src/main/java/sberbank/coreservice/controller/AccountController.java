@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sberbank.coreservice.domain.entity.dto.AccountDto;
 import sberbank.coreservice.service.AccountService;
-import sberbank.coreservicecommon.dto.AccountDto;
 
 import java.util.List;
 

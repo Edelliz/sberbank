@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import sberbank.coreservice.domain.entity.AccountEntity;
 import sberbank.coreservice.domain.entity.TypeOfOperation;
+import sberbank.coreservice.domain.entity.dto.AccountDto;
 import sberbank.coreservice.exception.InsufficientFundsException;
 import sberbank.coreservice.exception.NotFoundAccount;
 import sberbank.coreservice.repository.AccountRepository;
-import sberbank.coreservicecommon.dto.AccountDto;
 
 import java.util.List;
 import java.util.Random;
