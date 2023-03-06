@@ -6,21 +6,17 @@
     <changeSet id="02_03_2023__create_table_loan" author="iplotnikova">
         <createTable tableName="loan">
             <column name="id" type="BIGINT" remarks="Идентификатор"></column>
-            <column name="rate_id" type="BIGINT" remarks="Идентификатор тарифа"></column>
+            <column name="loan_period" type="INTEGER" remarks="Срок кредита(мес.)"></column>
             <column name="amount" type="BIGINT" remarks="Сумма кредита"></column>
-            <column name="payment" type="BIGINT" remarks="Ежемесячный платеж"></column>
-            <column name="start_date" type="DATE" remarks="Дата взятия кредита"></column>
-            <column name="end_date" type="DATE" remarks="Дата последнего платежа кредита"></column>
+            <column name="account_debiting_id" type="BIGINT" remarks="Счет списания"></column>
+            <column name="account_replenishment_id" type="BIGINT" remarks="Счет пополнения"></column>
+            <column name="rate_id" type="BIGINT" remarks="Идентификатор тарифа"></column>
+            <column name="payment" type="decimal" remarks="Ежемесячный платеж"></column>
             <column name="client_id" type="BIGINT" remarks="Идентификатор клиента взявшего кредит"></column>
-            <column name="employee_id" type="BIGINT" remarks="Идентификатор сотрудника, выдавшего кредит"></column>
+            <column name="debt" type="decimal" remarks="Текущая задолжность"></column>
         </createTable>
 
         <addPrimaryKey tableName="loan" columnNames="id"/>
-        <addNotNullConstraint tableName="loan" columnName="amount"/>
-        <addNotNullConstraint tableName="loan" columnName="payment"/>
-        <addNotNullConstraint tableName="loan" columnName="start_date"/>
-        <addNotNullConstraint tableName="loan" columnName="end_date"/>
-
         <rollback>
             <dropTable tableName="loan"/>
         </rollback>
