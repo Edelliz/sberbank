@@ -41,6 +41,8 @@ public class LoanServiceImpl implements LoanService {
                 dto.getClientId(), calculateCommonDebt(rateEntity.getRate(), dto.getLoanAmount())
         );
 
+        commonService.refillAccount(dto.getAccountReplenishmentId(), dto.getLoanAmount());
+
         loanRepository.save(entity);
 
         return loanEntityToDto(entity);
