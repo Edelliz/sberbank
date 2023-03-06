@@ -4,6 +4,8 @@ import sberbank.loanservice.domain.dto.LoanCreateDto;
 import sberbank.loanservice.domain.dto.LoanDto;
 import sberbank.loanservice.domain.dto.LoanRepayDto;
 
+import java.util.List;
+
 /**
  * Интерфейс для работы с кредитами
  */
@@ -22,4 +24,9 @@ public interface LoanService {
      * Погашение кредита
      */
     public LoanDto repayLoan(LoanRepayDto dto);
+
+    /**
+     * Получение кредитов пользователя
+     */
+    public List<LoanDto> getLoans(Long clientId);
 }

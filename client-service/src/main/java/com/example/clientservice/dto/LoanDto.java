@@ -1,4 +1,4 @@
-package sberbank.loanservice.domain.dto;
+package com.example.clientservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

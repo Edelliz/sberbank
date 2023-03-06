@@ -13,6 +13,9 @@ import sberbank.loanservice.exception.NotFoundLoanRate;
 import sberbank.loanservice.repository.LoanRateRepository;
 import sberbank.loanservice.repository.LoanRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Реализация сервиса для работы с кредитами
  */
@@ -77,6 +80,14 @@ public class LoanServiceImpl implements LoanService {
 
         return loanEntityToDto(entity);
 
+    }
+
+    @Override
+    @Transactional
+    public List<LoanDto> getLoans(Long clientId) {
+        return loanRepository.getLoanEntitiesByClientId(clientId).stream()
+                .map(this::loanEntityToDto)
+                .collect(Collectors.toList());
     }
 
     private void closeLoan(Long loanId) {
