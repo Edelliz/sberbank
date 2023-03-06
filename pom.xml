@@ -20,6 +20,9 @@
         <module>config-service</module>
         <module>core-service</module>
         <module>employee-service</module>
+        <module>user-service</module>
+        <module>loan-service</module>
+
     </modules>
 
 </project>
