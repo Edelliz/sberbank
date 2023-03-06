@@ -97,7 +97,12 @@ public class AccountService {
      */
     @Transactional
     public AccountDto withdrawAccount(AccountAmountUpdateDto dto) {
-        if (accountRepository.getAmount(dto.getAccountId()) - dto.getAmount() >= 0) {
+        AccountEntity account = accountRepository.findById(dto.getAccountId())
+                .orElseThrow(() ->
+                        new NotFoundAccount("Счет с таким id: " + dto.getAccountId() + " не найден"));
+
+        var accAmount = account.getAmount();
+        if (accAmount - dto.getAmount() >= 0) {
 
             return updateAccountAmount(dto.getAccountId(), -dto.getAmount());
         }

@@ -41,4 +41,9 @@ public class LoanDto {
      */
     private Double debt;
 
+    /**
+     * Флаг, отвечающий за наличие данных
+     */
+    private Boolean hasData;
+
 }

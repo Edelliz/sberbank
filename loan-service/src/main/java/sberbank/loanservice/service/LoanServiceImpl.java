@@ -9,6 +9,7 @@ import sberbank.loanservice.domain.dto.LoanRateDto;
 import sberbank.loanservice.domain.dto.LoanRepayDto;
 import sberbank.loanservice.domain.entity.LoanEntity;
 import sberbank.loanservice.domain.entity.LoanRateEntity;
+import sberbank.loanservice.exception.NotFoundLoan;
 import sberbank.loanservice.exception.NotFoundLoanRate;
 import sberbank.loanservice.repository.LoanRateRepository;
 import sberbank.loanservice.repository.LoanRepository;
@@ -57,24 +58,30 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    @Transactional()
+    @Transactional
     public LoanDto repayLoan(LoanRepayDto dto) {
         commonService.withdrawAccount(dto.getAccountId(), dto.getAmount());
 
         LoanEntity entity = loanRepository.findById(dto.getId())
-                .orElseThrow(() -> new NotFoundLoanRate("Кредит с id " + dto.getId() + " не найден"));
+                .orElseThrow(() -> new NotFoundLoan("Кредит с id " + dto.getId() + " не найден"));
 
-        double balance = entity.getDebt() - dto.getAmount();
+        var debt = entity.getDebt();
+        double balance = debt - dto.getAmount();
         if (balance <= 0) {
-            closeLoan(dto.getId());
-
             if (balance < 0) {
 
                 commonService.refillAccount(dto.getAccountId(), balance);
             }
 
-            entity.setDebt(0D);
+            loanRepository.deleteById(dto.getId());
+
+            return new LoanDto(
+                    dto.getId(), new LoanRateDto(),
+                    null, null, null, 0D,
+                    false
+            );
         } else {
+
             entity.setDebt(balance);
         }
 
@@ -92,9 +99,6 @@ public class LoanServiceImpl implements LoanService {
                 .collect(Collectors.toList());
     }
 
-    private void closeLoan(Long loanId) {
-        loanRateRepository.deleteById(loanId);
-    }
 
     private LoanDto loanEntityToDto(LoanEntity entity) {
         LoanRateEntity rateEntity = loanRateRepository.findById(entity.getRateId())
@@ -108,7 +112,8 @@ public class LoanServiceImpl implements LoanService {
                 entity.getLoanPeriod(),
                 entity.getLoanAmount(),
                 entity.getAccountDebitingId(),
-                entity.getDebt()
+                entity.getDebt(),
+                true
         );
     }
 
