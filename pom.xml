@@ -19,7 +19,7 @@
         <module>api-gateway</module>
         <module>config-service</module>
         <module>core-service</module>
-
+        <module>employee-service</module>
     </modules>
 
 </project>
