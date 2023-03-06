@@ -22,7 +22,7 @@ public class AccountService {
     private final String URIHistory = "http://localhost:8765/core/history/operations/";
     private final String URIUser = "http://localhost:8765/user/";
     public ClientsAccounts getUsersAccountsList(int userId) {
-        Object[] response = restTemplate.getForEntity(URI + userId, Object[].class).getBody();
+        Object[] response = restTemplate.getForEntity(URI + userId + "/client", Object[].class).getBody();
         String responseUser = restTemplate.getForObject(URIUser + userId + "/fullname", String.class);
         return new ClientsAccounts(responseUser,
                 Arrays.stream(Objects.requireNonNull(response))

@@ -2,6 +2,7 @@ package sberbank.employeeservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import sberbank.employeeservice.domain.dto.CreateCredit;
 import sberbank.employeeservice.domain.dto.Credit;
 import sberbank.employeeservice.service.CreditService;
 
@@ -17,7 +18,7 @@ public class CreditController {
         return creditService.getCreditList();
     }
     @PostMapping("/create")
-    public Credit createCredit(@RequestBody Credit request) {
+    public Credit createCredit(@RequestBody CreateCredit request) {
         return creditService.createCredit(request);
     }
 }

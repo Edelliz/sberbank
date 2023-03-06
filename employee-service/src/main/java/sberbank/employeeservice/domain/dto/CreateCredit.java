@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Credit {
-    private Long id;
+public class CreateCredit {
+    private Long employeeId;
     private String name;
     private Integer rate;
-    private User employee;
 }
