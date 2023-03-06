@@ -43,10 +43,20 @@ public class AccountService {
      * Получение счетов пользователя
      */
     @Transactional(readOnly = true)
-    public List<AccountDto> getAccount(Long userId) {
+    public List<AccountDto> getUserAccounts(Long userId) {
 
         return accountRepository.findAccountEntitiesByOwnerId(userId).stream()
                 .map(this::accountEntityToDto).collect(Collectors.toList());
+    }
+
+    /**
+     * Получение счета
+     */
+    @Transactional(readOnly = true)
+    public AccountDto getAccount(Long accountId) {
+        return accountEntityToDto(accountRepository.findById(accountId)
+                .orElseThrow(() -> new NotFoundAccount("Счет с таким id: " + accountId + " не найден"))
+        );
     }
 
     /**
@@ -87,7 +97,7 @@ public class AccountService {
      */
     @Transactional
     public AccountDto withdrawAccount(AccountAmountUpdateDto dto) {
-        if (accountRepository.getAmount(dto.getAccountId()) -dto.getAmount() >= 0) {
+        if (accountRepository.getAmount(dto.getAccountId()) - dto.getAmount() >= 0) {
 
             return updateAccountAmount(dto.getAccountId(), -dto.getAmount());
         }

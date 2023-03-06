@@ -8,15 +8,12 @@
             <column name="id" type="BIGINT" remarks="Идентификатор"></column>
             <column name="name_rate" type="VARCHAR(50)" remarks="Наименование тарифа"></column>
             <column name="rate" type="NUMBER" remarks="Процентная ставка"></column>
-            <column name="min_payment" type="NUMBER" remarks="Размер минимального платежа"></column>
             <column name="employee_id" type="BIGINT" remarks="Идентификатор создателя тарифа"></column>
-            <column name="create_date" type="DATE" remarks="Дата создания"></column>
         </createTable>
 
         <addPrimaryKey tableName="loan_rate" columnNames="id"/>
         <addNotNullConstraint tableName="loan_rate" columnName="name_rate"/>
         <addNotNullConstraint tableName="loan_rate" columnName="employee_id"/>
-        <addNotNullConstraint tableName="loan_rate" columnName="min_payment"/>
         <addNotNullConstraint tableName="loan_rate" columnName="rate"/>
 
         <rollback>

@@ -22,13 +22,21 @@ public class AccountService {
     private final String URI = "http://localhost:8765/core/account/";
 
     /**
-     * Получение счета пользователя
+     * Получение счетов пользователя
      */
-    public List<AccountDto> getAccount(Long clientId) {
-        Object[] response = restTemplate.getForEntity(URI + clientId, Object[].class).getBody();
+    public List<AccountDto> getUserAccounts(Long clientId) {
+        Object[] response = restTemplate.getForEntity(URI + clientId + "/client", Object[].class).getBody();
         return Arrays.stream(Objects.requireNonNull(response))
                 .map(object -> objectMapper.convertValue(object, AccountDto.class))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Получение счета
+     */
+    public AccountDto getAccount(Long accountId) {
+
+        return restTemplate.getForEntity(URI + accountId, AccountDto.class).getBody();
     }
 
     /**

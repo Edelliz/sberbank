@@ -8,6 +8,8 @@ import sberbank.userservice.domain.enums.UserStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Entity
@@ -27,9 +29,11 @@ public class UserEntity extends BaseEntity {
     private String password;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
 
     @Column(name = "surname")

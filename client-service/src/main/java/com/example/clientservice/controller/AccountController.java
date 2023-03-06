@@ -23,11 +23,20 @@ public class AccountController {
 
     /**
      * Получение счетов клиента
-     * */
-    @GetMapping("/{clientId}")
-    public List<AccountDto> getAccount(@PathVariable Long clientId) {
+     */
+    @GetMapping("/{clientId}/client")
+    public List<AccountDto> getUserAccounts(@PathVariable Long clientId) {
 
-        return accountService.getAccount(clientId);
+        return accountService.getUserAccounts(clientId);
+    }
+
+    /**
+     * Получение счета
+     */
+    @GetMapping("/{accountId}")
+    public AccountDto getAccount(@PathVariable Long accountId) {
+
+        return accountService.getAccount(accountId);
     }
 
     /**

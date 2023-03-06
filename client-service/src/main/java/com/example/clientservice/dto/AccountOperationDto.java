@@ -8,8 +8,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountOperationDto {
+
     private String type;
+
     private String value;
+
     private String executeDate;
+
 
 }
